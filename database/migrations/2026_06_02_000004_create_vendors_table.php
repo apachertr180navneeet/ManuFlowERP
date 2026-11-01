@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('contact_person')->nullable();
             $table->string('contact_phone')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->foreignId('created_by')->constrained('users')->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
