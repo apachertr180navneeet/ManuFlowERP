@@ -10,23 +10,29 @@
     </div>
     <nav class="sidebar-nav">
         <ul class="nav flex-column">
+            @if(Auth::user()->role == 'admin')
+            <!-- ADMIN MENU (Only Dashboard and Company Master) -->
+            <li class="nav-item">
+                <a href="{{route('admin.dashboard')}}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-grid-1x2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('admin.company.index')}}" class="nav-link {{ request()->routeIs('admin.company.*') ? 'active' : '' }}">
+                    <i class="bi bi-building"></i> Company Master
+                </a>
+            </li>
+            @else
+            <!-- COMPANY USER MENU -->
             <!-- DASHBOARD -->
             <li class="nav-item">
-                <a href="{{ Auth::user()->role == 'admin' ? route('admin.dashboard') : route('company.dashboard') }}" class="nav-link {{ request()->routeIs('*.dashboard') ? 'active' : '' }}">
+                <a href="{{route('company.dashboard')}}" class="nav-link {{ request()->routeIs('company.dashboard') ? 'active' : '' }}">
                     <i class="bi bi-grid-1x2"></i> Dashboard
                 </a>
             </li>
 
             <!-- MASTERS -->
             <li class="nav-header">Master</li>
-
-            @if(Auth::user()->role == 'admin')
-            <li class="nav-item">
-                <a href="{{route('admin.company.index')}}" class="nav-link {{ request()->routeIs('admin.company.*') ? 'active' : '' }}">
-                    <i class="bi bi-building"></i> Company Master
-                </a>
-            </li>
-            @endif
 
             <li class="nav-item">
                 <a href="{{route('admin.vendor.index')}}" class="nav-link {{ request()->routeIs('admin.vendor.*') ? 'active' : '' }}">
@@ -58,13 +64,11 @@
                     <i class="bi bi-link-45deg"></i> Item Assignment
                 </a>
             </li>
-            @if(Auth::user()->role !== 'admin')
             <li class="nav-item">
                 <a href="{{route('company.job-worker.index')}}" class="nav-link {{ request()->routeIs('company.job-worker.*') ? 'active' : '' }}">
                     <i class="bi bi-person-workspace"></i> Job Worker Master
                 </a>
             </li>
-            @endif
             <li class="nav-item">
                 <a href="{{route('admin.expense.index')}}" class="nav-link {{ request()->routeIs('admin.expense.*') ? 'active' : '' }}">
                     <i class="bi bi-cash-coin"></i> Expense Master
@@ -84,7 +88,6 @@
                     <i class="bi bi-gear"></i> Manufacturing
                 </a>
             </li>
-            @if(Auth::user()->role !== 'admin')
             <li class="nav-item">
                 <a href="{{route('company.job-worker-assign.index')}}" class="nav-link {{ request()->routeIs('company.job-worker-assign.*') ? 'active' : '' }}">
                     <i class="bi bi-clipboard-data"></i> Job Worker Assign
@@ -95,7 +98,6 @@
                     <i class="bi bi-box-arrow-in-down-right"></i> Job Work Inward
                 </a>
             </li>
-            @endif
             <li class="nav-item">
                 <a href="{{route('admin.cost-sheet.index')}}" class="nav-link {{ request()->routeIs('admin.cost-sheet.*') ? 'active' : '' }}">
                     <i class="bi bi-calculator"></i> Cost Sheet
@@ -130,6 +132,7 @@
                     <i class="bi bi-file-earmark-bar-graph"></i> Dispatch Reports
                 </a>
             </li>
+            @endif
         </ul>
     </nav>
     <div class="sidebar-footer">

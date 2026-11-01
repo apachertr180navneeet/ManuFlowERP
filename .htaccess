@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Block access to sensitive files
+    <FilesMatch "(^\.env|\.git|composer\.(json|lock)|package\.json)">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+
+    # 1. Force remove /public/ from URL if typed in browser
+    RewriteCond %{THE_REQUEST} \s/public/([^\s?]*) [NC]
+    RewriteRule ^ %1 [R=301,L,NE]
+
+    # 2. Internally route all requests into /public directory
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
