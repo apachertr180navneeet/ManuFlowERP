@@ -10,38 +10,23 @@
     </div>
     <nav class="sidebar-nav">
         <ul class="nav flex-column">
-            @if(Auth::user()->role == 'admin')
+            <!-- DASHBOARD -->
             <li class="nav-item">
-                <a href="{{route('admin.dashboard')}}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ Auth::user()->role == 'admin' ? route('admin.dashboard') : route('company.dashboard') }}" class="nav-link {{ request()->routeIs('*.dashboard') ? 'active' : '' }}">
                     <i class="bi bi-grid-1x2"></i> Dashboard
                 </a>
             </li>
+
+            <!-- MASTERS -->
+            <li class="nav-header">Master</li>
+
+            @if(Auth::user()->role == 'admin')
             <li class="nav-item">
                 <a href="{{route('admin.company.index')}}" class="nav-link {{ request()->routeIs('admin.company.*') ? 'active' : '' }}">
                     <i class="bi bi-building"></i> Company Master
                 </a>
             </li>
-            @else
-            <li class="nav-item">
-                <a href="{{route('company.dashboard')}}" class="nav-link {{ request()->routeIs('company.dashboard') ? 'active' : '' }}">
-                    <i class="bi bi-grid-1x2"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('company.job-worker.index')}}" class="nav-link {{ request()->routeIs('company.job-worker.*') ? 'active' : '' }}">
-                    <i class="bi bi-person-workspace"></i> Job Worker Master
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('company.job-worker-assign.index')}}" class="nav-link {{ request()->routeIs('company.job-worker-assign.*') ? 'active' : '' }}">
-                    <i class="bi bi-clipboard-data"></i> Job Worker Assign
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('company.job-work-inward.index')}}" class="nav-link {{ request()->routeIs('company.job-work-inward.*') ? 'active' : '' }}">
-                    <i class="bi bi-box-arrow-in-down-right"></i> Job Work Inward
-                </a>
-            </li>
+            @endif
 
             <li class="nav-item">
                 <a href="{{route('admin.vendor.index')}}" class="nav-link {{ request()->routeIs('admin.vendor.*') ? 'active' : '' }}">
@@ -69,23 +54,29 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{route('admin.expense.index')}}" class="nav-link {{ request()->routeIs('admin.expense.*') ? 'active' : '' }}">
-                    <i class="bi bi-cash-coin"></i> Expense Master
-                </a>
-            </li>
-            <li class="nav-item">
                 <a href="{{route('admin.item-assignment.index')}}" class="nav-link {{ request()->routeIs('admin.item-assignment.*') ? 'active' : '' }}">
                     <i class="bi bi-link-45deg"></i> Item Assignment
                 </a>
             </li>
+            @if(Auth::user()->role !== 'admin')
+            <li class="nav-item">
+                <a href="{{route('company.job-worker.index')}}" class="nav-link {{ request()->routeIs('company.job-worker.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-workspace"></i> Job Worker Master
+                </a>
+            </li>
+            @endif
+            <li class="nav-item">
+                <a href="{{route('admin.expense.index')}}" class="nav-link {{ request()->routeIs('admin.expense.*') ? 'active' : '' }}">
+                    <i class="bi bi-cash-coin"></i> Expense Master
+                </a>
+            </li>
+
+            <!-- PROCESSES -->
+            <li class="nav-header">Processes</li>
+
             <li class="nav-item">
                 <a href="{{route('admin.purchase.index')}}" class="nav-link {{ request()->routeIs('admin.purchase.*') ? 'active' : '' }}">
                     <i class="bi bi-cart3"></i> Purchase
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('admin.dispatch.index')}}" class="nav-link {{ request()->routeIs('admin.dispatch.*') ? 'active' : '' }}">
-                    <i class="bi bi-truck"></i> Dispatch
                 </a>
             </li>
             <li class="nav-item">
@@ -93,6 +84,37 @@
                     <i class="bi bi-gear"></i> Manufacturing
                 </a>
             </li>
+            @if(Auth::user()->role !== 'admin')
+            <li class="nav-item">
+                <a href="{{route('company.job-worker-assign.index')}}" class="nav-link {{ request()->routeIs('company.job-worker-assign.*') ? 'active' : '' }}">
+                    <i class="bi bi-clipboard-data"></i> Job Worker Assign
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('company.job-work-inward.index')}}" class="nav-link {{ request()->routeIs('company.job-work-inward.*') ? 'active' : '' }}">
+                    <i class="bi bi-box-arrow-in-down-right"></i> Job Work Inward
+                </a>
+            </li>
+            @endif
+            <li class="nav-item">
+                <a href="{{route('admin.cost-sheet.index')}}" class="nav-link {{ request()->routeIs('admin.cost-sheet.*') ? 'active' : '' }}">
+                    <i class="bi bi-calculator"></i> Cost Sheet
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('admin.dispatch.index')}}" class="nav-link {{ request()->routeIs('admin.dispatch.*') && !request()->routeIs('admin.dispatch.reports') ? 'active' : '' }}">
+                    <i class="bi bi-truck"></i> Dispatch
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('admin.stock-reconciliation.index')}}" class="nav-link {{ request()->routeIs('admin.stock-reconciliation.*') ? 'active' : '' }}">
+                    <i class="bi bi-clipboard-check"></i> Stock Reconciliation
+                </a>
+            </li>
+
+            <!-- REPORTS -->
+            <li class="nav-header">Report</li>
+
             <li class="nav-item">
                 <a href="{{route('admin.manufacturing.stock')}}" class="nav-link {{ request()->routeIs('admin.manufacturing.stock') ? 'active' : '' }}">
                     <i class="bi bi-boxes"></i> Stock Report
@@ -104,16 +126,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{route('admin.stock-reconciliation.index')}}" class="nav-link {{ request()->routeIs('admin.stock-reconciliation.*') ? 'active' : '' }}">
-                    <i class="bi bi-clipboard-check"></i> Stock Reconciliation
+                <a href="{{route('admin.dispatch.reports')}}" class="nav-link {{ request()->routeIs('admin.dispatch.reports') ? 'active' : '' }}">
+                    <i class="bi bi-file-earmark-bar-graph"></i> Dispatch Reports
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{route('admin.cost-sheet.index')}}" class="nav-link {{ request()->routeIs('admin.cost-sheet.*') ? 'active' : '' }}">
-                    <i class="bi bi-calculator"></i> Cost Sheet
-                </a>
-            </li>
-            @endif
         </ul>
     </nav>
     <div class="sidebar-footer">

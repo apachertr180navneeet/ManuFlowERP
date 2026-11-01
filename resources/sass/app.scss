@@ -137,6 +137,15 @@ html, body { height: 100%; }
         flex: 1;
         padding: 1.5rem 1rem;
         overflow-y: auto;
+        .nav-header {
+            font-size: .6875rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            font-weight: 700;
+            color: #64748b;
+            padding: .85rem 1rem .35rem;
+            list-style: none;
+        }
         .nav-item {
             margin-bottom: .25rem;
             .nav-link {

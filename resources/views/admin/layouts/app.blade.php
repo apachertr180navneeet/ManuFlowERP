@@ -40,38 +40,23 @@
         </div>
         <div class="offcanvas-body p-3">
             <ul class="nav flex-column">
-                @if(Auth::user()->role == 'admin')
+                <!-- DASHBOARD -->
                 <li class="nav-item mb-1">
-                    <a href="{{route('admin.dashboard')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                    <a href="{{ Auth::user()->role == 'admin' ? route('admin.dashboard') : route('company.dashboard') }}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('*.dashboard') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
                         <i class="bi bi-grid-1x2 me-3 fs-5" style="color:#64748b"></i> Dashboard
                     </a>
                 </li>
+
+                <!-- MASTERS -->
+                <li class="nav-header text-uppercase text-secondary fw-bold px-3 pt-3 pb-1" style="font-size: .6875rem; letter-spacing: .08em; color: #64748b !important; list-style: none;">Master</li>
+
+                @if(Auth::user()->role == 'admin')
                 <li class="nav-item mb-1">
                     <a href="{{route('admin.company.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.company.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
                         <i class="bi bi-building me-3 fs-5" style="color:#64748b"></i> Company Master
                     </a>
                 </li>
-                @else
-                <li class="nav-item mb-1">
-                    <a href="{{route('company.dashboard')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('company.dashboard') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-grid-1x2 me-3 fs-5" style="color:#64748b"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a href="{{route('company.job-worker.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('company.job-worker.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-person-workspace me-3 fs-5" style="color:#64748b"></i> Job Worker Master
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a href="{{route('company.job-worker-assign.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('company.job-worker-assign.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-clipboard-data me-3 fs-5" style="color:#64748b"></i> Job Worker Assign
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a href="{{route('company.job-work-inward.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('company.job-work-inward.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-box-arrow-in-down-right me-3 fs-5" style="color:#64748b"></i> Job Work Inward
-                    </a>
-                </li>
+                @endif
 
                 <li class="nav-item mb-1">
                     <a href="{{route('admin.vendor.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.vendor.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
@@ -99,23 +84,29 @@
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="{{route('admin.expense.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.expense.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-cash-coin me-3 fs-5" style="color:#64748b"></i> Expense Master
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
                     <a href="{{route('admin.item-assignment.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.item-assignment.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
                         <i class="bi bi-link-45deg me-3 fs-5" style="color:#64748b"></i> Item Assignment
                     </a>
                 </li>
+                @if(Auth::user()->role !== 'admin')
+                <li class="nav-item mb-1">
+                    <a href="{{route('company.job-worker.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('company.job-worker.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-person-workspace me-3 fs-5" style="color:#64748b"></i> Job Worker Master
+                    </a>
+                </li>
+                @endif
+                <li class="nav-item mb-1">
+                    <a href="{{route('admin.expense.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.expense.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-cash-coin me-3 fs-5" style="color:#64748b"></i> Expense Master
+                    </a>
+                </li>
+
+                <!-- PROCESSES -->
+                <li class="nav-header text-uppercase text-secondary fw-bold px-3 pt-3 pb-1" style="font-size: .6875rem; letter-spacing: .08em; color: #64748b !important; list-style: none;">Processes</li>
+
                 <li class="nav-item mb-1">
                     <a href="{{route('admin.purchase.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.purchase.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
                         <i class="bi bi-cart3 me-3 fs-5" style="color:#64748b"></i> Purchase
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a href="{{route('admin.dispatch.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.dispatch.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-truck me-3 fs-5" style="color:#64748b"></i> Dispatch
                     </a>
                 </li>
                 <li class="nav-item mb-1">
@@ -123,6 +114,37 @@
                         <i class="bi bi-gear me-3 fs-5" style="color:#64748b"></i> Manufacturing
                     </a>
                 </li>
+                @if(Auth::user()->role !== 'admin')
+                <li class="nav-item mb-1">
+                    <a href="{{route('company.job-worker-assign.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('company.job-worker-assign.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-clipboard-data me-3 fs-5" style="color:#64748b"></i> Job Worker Assign
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a href="{{route('company.job-work-inward.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('company.job-work-inward.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-box-arrow-in-down-right me-3 fs-5" style="color:#64748b"></i> Job Work Inward
+                    </a>
+                </li>
+                @endif
+                <li class="nav-item mb-1">
+                    <a href="{{route('admin.cost-sheet.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.cost-sheet.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-calculator me-3 fs-5" style="color:#64748b"></i> Cost Sheet
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a href="{{route('admin.dispatch.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.dispatch.*') && !request()->routeIs('admin.dispatch.reports') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-truck me-3 fs-5" style="color:#64748b"></i> Dispatch
+                    </a>
+                </li>
+                <li class="nav-item mb-1">
+                    <a href="{{route('admin.stock-reconciliation.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.stock-reconciliation.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-clipboard-check me-3 fs-5" style="color:#64748b"></i> Stock Reconciliation
+                    </a>
+                </li>
+
+                <!-- REPORTS -->
+                <li class="nav-header text-uppercase text-secondary fw-bold px-3 pt-3 pb-1" style="font-size: .6875rem; letter-spacing: .08em; color: #64748b !important; list-style: none;">Report</li>
+
                 <li class="nav-item mb-1">
                     <a href="{{route('admin.manufacturing.stock')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.manufacturing.stock') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
                         <i class="bi bi-boxes me-3 fs-5" style="color:#64748b"></i> Stock Report
@@ -134,16 +156,10 @@
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="{{route('admin.stock-reconciliation.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.stock-reconciliation.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-clipboard-check me-3 fs-5" style="color:#64748b"></i> Stock Reconciliation
+                    <a href="{{route('admin.dispatch.reports')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.dispatch.reports') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
+                        <i class="bi bi-file-earmark-bar-graph me-3 fs-5" style="color:#64748b"></i> Dispatch Reports
                     </a>
                 </li>
-                <li class="nav-item mb-1">
-                    <a href="{{route('admin.cost-sheet.index')}}" class="nav-link d-flex align-items-center rounded-3 {{ request()->routeIs('admin.cost-sheet.*') ? 'active' : '' }}" style="color:#94a3b8;padding:.75rem 1rem;font-size:.875rem">
-                        <i class="bi bi-calculator me-3 fs-5" style="color:#64748b"></i> Cost Sheet
-                    </a>
-                </li>
-                @endif
             </ul>
         </div>
         <div class="p-3 border-top border-secondary">
